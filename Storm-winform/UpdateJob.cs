@@ -350,12 +350,16 @@ namespace Storm_winform
         private void BackupSQLDb(string connString, string backupFilePath)
         {
             #region
+
+            Directory.CreateDirectory(backupFilePath);
             // Create a new SQL connection object
             SqlConnection conn = new SqlConnection(connString);
             ServerConnection serverCon = new ServerConnection(conn);
             Server server = new Server(serverCon);
-            
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connString);
 
+            string databaseName = builder.InitialCatalog;
+           
             // Open the connection
             conn.Open();
 
@@ -364,17 +368,17 @@ namespace Storm_winform
 
             // Set the backup object properties
             sqlBackup.Action = BackupActionType.Database;
-            sqlBackup.BackupSetDescription = "Backup";
-            sqlBackup.BackupSetName = "Backup";
+            sqlBackup.BackupSetDescription = "BackUp of:" + databaseName + "on" + DateTime.Now.ToShortDateString();
+            sqlBackup.BackupSetName = "Backup : " + databaseName;
+            sqlBackup.ContinueAfterError =false;
+            BackupDeviceItem destination = new BackupDeviceItem("C:\\BackUp\\20230418-143915\\Databases", DeviceType.File);
+            sqlBackup.LogTruncation = BackupTruncateLogType.Truncate;
+            sqlBackup.Devices.Add(destination);
 
-            // Set the backup file name
             sqlBackup.Database = conn.Database;
-            BackupDeviceItem deviceItem = new BackupDeviceItem(backupFilePath, DeviceType.File);
-            sqlBackup.Devices.Add(deviceItem);
-
-            // Execute the backup
-            //sqlBackup.SqlBackup(conn);
             sqlBackup.SqlBackup(server);
+           
+        
 
             // Close the connection
             conn.Close();
