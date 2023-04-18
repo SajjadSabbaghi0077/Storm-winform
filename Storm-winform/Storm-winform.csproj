@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>Storm_winform</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
+    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.13.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+</Project>
